@@ -19,10 +19,19 @@ board.on("ready", function() {
 //
 //  });
 
-  var strobe = new five.Pin(12);
-  var state = 0x00;
+ // var strobe = new five.Pin(12);
+  //var state = 0x00;
 
-  this.loop(500, function() {
-    strobe.write(state ^= 0x01);
+//  this.loop(500, function() {
+  //  strobe.write(state ^= 0x01);
+  //});
+
+
+  var piezo = new five.Piezo(9);
+
+  piezo.play({
+    song: "F# F# G A A G F# E D D E f# F# e e   ",
+    beats: 1/3,
+    tempo: 50
   });
 });
