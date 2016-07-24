@@ -37,6 +37,12 @@ see wiring / useage at http://www.instructables.com/id/Hack-the-Nabaztag/step8/I
     Blue is Reverse
     Green is Forward
 
+    which equates to
+
+    pwm: Green,
+    dir: Blue,
+    enable: Yellow
+
 
 ### Top button
 
