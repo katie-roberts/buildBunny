@@ -6,37 +6,34 @@ var areWeHappy = require('./slackIntegration/calculateMood').areWeHappy;
 
 board.on("ready", function() {
     var piezo = new five.Piezo(9);
+    var happySong = songs.load('mario-intro');
+    var sadSong = songs.load('funeral-march-short');
+
     this.repl.inject({
         piezo: piezo
     });
 
-    sensor = new five.Sensor({
-        pin: "A0",
-        freq: 250
-    });
-
     var playMoodSong = function (happy) {
-        console.log('Happy?', happy);
         if (happy) {
+            var happySongClone = JSON.parse(JSON.stringify(happySong));
             console.log('We are happy!');
-            var happySong = songs.load('mario-intro')
             piezo.play(happySong);
+            happySong = happySongClone;
         } else {
+            var sadSongClone = JSON.parse(JSON.stringify(sadSong));
             console.log('We are sad :(');
-            var sadSong = songs.load('funeral-march-short')
             piezo.play(sadSong);
+            sadSong = sadSongClone;
         }
     }
 
     // Load a song object
-    // setInterval(
-    //     playMoodSong,
-    //     10*1000
-    // );
+    setInterval(
+        function() {
+            areWeHappy(playMoodSong);
+        },
+        30*1000
+    );
 
     areWeHappy(playMoodSong);
 });
-
-function map(sensorVal, inMin, inMax, outMin, outMax) {
-    return (sensorVal - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-}
