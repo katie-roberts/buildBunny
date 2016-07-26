@@ -116,36 +116,44 @@ board.on('ready', function () {
   leftEar.disable();
   rightEar.disable();
 
-  // set the motor going forward full speed
-  leftEar.forward(255);
-  rightEar.forward(255);
-
-  setTimeout(randomisedLeftEar, Math.floor(Math.random() * 10000));
-  setTimeout(randomisedRightEar, Math.floor(Math.random() * 10000));
+//  // set the motor going forward full speed
+//  leftEar.forward(255);
+//  rightEar.forward(255);
+//
+//  setTimeout(randomisedLeftEar, Math.floor(Math.random() * 10000));
+//  setTimeout(randomisedRightEar, Math.floor(Math.random() * 10000));
 
   var checkingHappiness = function (happy) {
-    if (lastMood === null) lastMood = happy;
-    if (lastMood === happy) return;
-    if (happy) {
-      if (moody) {
-        salfordMood.stop();
-        glasgowMood.stop();
-        teamMood.stop();
-        moody = false;
+    //if (lastMood === null) lastMood = happy;
+    //if (!lastMood === happy) {
+
+      if (happy) {
+        if (moody) {
+          salfordMood.stop();
+          glasgowMood.stop();
+          teamMood.stop();
+          moody = false;
+        }
+        salfordMood.on();
+        glasgowMood.on();
+        teamMood.on();
+        if (!leftEar.isOn) {
+          leftEar.forward(255);
+          setTimeout(randomisedLeftEar, Math.floor(Math.random() * 10000));
+        }
+        if (!rightEar.isOn)  {
+          rightEar.forward(255);
+          setTimeout(randomisedRightEar, Math.floor(Math.random() * 10000));
+        }
+      } else {
+        salfordMood.blink(500);
+        glasgowMood.blink(500);
+        teamMood.blink(500);
+        leftEar.stop();
+        rightEar.stop();
+        moody = true;
       }
-      salfordMood.on();
-      glasgowMood.on();
-      teamMood.on();
-      leftEar.forward(255);
-      rightEar.forward(255);
-    } else {
-      salfordMood.blink(500);
-      glasgowMood.blink(500);
-      teamMood.blink(500);
-      leftEar.stop();
-      rightEar.stop();
-      moody = true;
-    }
+    //}
     setTimeout(areWeHappy(checkingHappiness), 10000);
   };
 
