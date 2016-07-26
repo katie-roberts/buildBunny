@@ -1,10 +1,8 @@
-// On off button
 var five = require('johnny-five');
 var board = new five.Board();
 
-var happy = require('./slackIntegration/calculateMood.js');
-
-
+var areWeHappy = require('./slackIntegration/calculateMood').areWeHappy;
+var moody = false;
 
 
 board.on('ready', function () {
@@ -23,25 +21,25 @@ board.on('ready', function () {
 
   var randomisedLeftEar = function () {
     // left ear
-    if (leftEar.isOn){
+    if (leftEar.isOn) {
       if (leftEar.direction.name === 'forward') {
         leftEar.reverse(255);
       } else {
         leftEar.forward(255);
       }
-      setTimeout(randomisedLeftEar, Math.floor(Math.random()*10000));
+      setTimeout(randomisedLeftEar, Math.floor(Math.random() * 10000));
     }
   }
 
   var randomisedRightEar = function () {
     // left ear
-    if (rightEar.isOn){
+    if (rightEar.isOn) {
       if (rightEar.direction.name === 'forward') {
         rightEar.reverse(255);
       } else {
         rightEar.forward(255);
       }
-      setTimeout(randomisedRightEar, Math.floor(Math.random()*10000));
+      setTimeout(randomisedRightEar, Math.floor(Math.random() * 10000));
     }
   }
 
@@ -73,49 +71,48 @@ board.on('ready', function () {
   });
 
 
-  leftEar.on('stop', function() {
-    console.log('automated stop on timer', Date.now());
+  leftEar.on('stop', function () {
   });
 
-  leftEar.on('forward', function() {
+  leftEar.on('forward', function () {
     // enable the motor after 2 seconds
-    board.wait(2000, function() {
+    board.wait(2000, function () {
       leftEar.enable();
     });
   });
 
 
-  leftEar.on('enable', function() {
+  leftEar.on('enable', function () {
     // enable the motor after 2 seconds
-    board.wait(2000, function() {
+    board.wait(2000, function () {
       leftEar.stop();
     });
   });
 
-  leftEar.on('disable', function() {
+  leftEar.on('disable', function () {
   });
 
 
-  rightEar.on('stop', function() {
+  rightEar.on('stop', function () {
   });
 
-  rightEar.on('forward', function() {
+  rightEar.on('forward', function () {
 
     // enable the motor after 2 seconds
-    board.wait(2000, function() {
+    board.wait(2000, function () {
       rightEar.enable();
     });
   });
 
-  rightEar.on('enable', function() {
+  rightEar.on('enable', function () {
 
     // enable the motor after 2 seconds
-    board.wait(2000, function() {
+    board.wait(2000, function () {
       rightEar.stop();
     });
   });
 
-  rightEar.on('disable', function() {
+  rightEar.on('disable', function () {
   });
 
 
@@ -127,15 +124,37 @@ board.on('ready', function () {
   leftEar.forward(255);
   rightEar.forward(255);
 
-  setTimeout(randomisedLeftEar, Math.floor(Math.random()*10000));
-  setTimeout(randomisedRightEar, Math.floor(Math.random()*10000));
+  setTimeout(randomisedLeftEar, Math.floor(Math.random() * 10000));
+  setTimeout(randomisedRightEar, Math.floor(Math.random() * 10000));
 
 //  console.log('am I happy ?? ' + happy.areWeHappy);
-//
-  if (happiness){
 
+  var checkingHappiness = function (happy) {
+
+    if (happy) {
+      if (moody) {
+        salfordMood.stop();
+        glasgowMood.stop();
+        teamMood.stop();
+        moody = false;
+      }
+      salfordMood.on();
+      glasgowMood.on();
+      teamMood.on();
+      leftEar.forward(255);
+      rightEar.forward(255);
+    } else {
+      salfordMood.blink(500);
+      glasgowMood.blink(500);
+      teamMood.blink(500);
+      leftEar.stop();
+      rightEar.stop();
+      moody = true;
+    }
+    setTimeout(areWeHappy(checkingHappiness), 10000);
   }
-
+//
+  areWeHappy(checkingHappiness);
 
 });
 

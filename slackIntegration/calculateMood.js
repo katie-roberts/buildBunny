@@ -6,6 +6,8 @@ var positiveEmoji = ['simple_smile', 'slightly_smiling_face', 'smile', 'stuck_ou
   'laughing', 'joy', 'laughing'];
 var negativeEmoji = ['disappointed', 'fu', 'grimacing', 'face_with_rolling_eyes'];
 
+var maxNumberOfSlacksToCheck = 100;
+
 
 var containsPositive = function (str) {
   var howHappy = 0;
@@ -32,21 +34,23 @@ var containsNegative = function (str) {
 var getContentFromSlackChannel = function (messages, callback) {
   var feelingGood = 0;
   var feelingBad = 0;
-  for (var i = 0; i < messages.length; i++) {
+
+  var maxMessages = messages.length < maxNumberOfSlacksToCheck ? messages.length : maxNumberOfSlacksToCheck;
+
+  for (var i = 0; i < maxMessages; i++) {
     var str = messages[i].text;
     // does it say something positive?
     feelingGood = feelingGood + containsPositive(str);
     feelingBad = feelingBad + containsNegative(str);
   }
-  console.log('how feeling :: good ' + feelingGood + '   bad ' + feelingBad);
 
   if (callback) {
-      callback(feelingGood > feelingBad);
+    callback(feelingGood > feelingBad);
   }
 }
 
 module.exports = {
-  areWeHappy : function (cb) {
+  areWeHappy: function (cb) {
     return getJson.getMoodyContent(getContentFromSlackChannel, cb);
   }
 }
