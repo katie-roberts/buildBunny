@@ -2,17 +2,48 @@
 var five = require('johnny-five');
 var board = new five.Board();
 
+var happy = require('./slackIntegration/calculateMood.js');
+
+
+
 
 board.on('ready', function () {
+//
+//  var button = new five.Button('A1');
+//  var scroll = new five.Sensor('A0');
 
-  var button = new five.Button('A1');
-  var scroll = new five.Sensor('A0');
+  var happiness = false;
+
   var glasgowMood = new five.Led(10);
   var teamMood = new five.Led(12);
   var salfordMood = new five.Led(11);
 
   var leftEar;
   var rightEar;
+
+  var randomisedLeftEar = function () {
+    // left ear
+    if (leftEar.isOn){
+      if (leftEar.direction.name === 'forward') {
+        leftEar.reverse(255);
+      } else {
+        leftEar.forward(255);
+      }
+      setTimeout(randomisedLeftEar, Math.floor(Math.random()*10000));
+    }
+  }
+
+  var randomisedRightEar = function () {
+    // left ear
+    if (rightEar.isOn){
+      if (rightEar.direction.name === 'forward') {
+        rightEar.reverse(255);
+      } else {
+        rightEar.forward(255);
+      }
+      setTimeout(randomisedRightEar, Math.floor(Math.random()*10000));
+    }
+  }
 
 
   leftEar = new five.Motor({
@@ -42,41 +73,19 @@ board.on('ready', function () {
   });
 
 
-  button.on('press', function(){
-    console.log('button pressed');
-
-//   redLed.on();
-  });
-
-  button.on('release', function(){
-    console.log('button released');
-//   redLed.off();
-  });
-
-  scroll.scale(0, 255).on('change', function () {
-   // console.log('The scaled potentiometer value is ', this.value);
- //   console.log('The raw value ', this.raw);
-   // redLed.brightness(this.value);
-   // amberLed.brightness(this.value);
-  });
-
-
   leftEar.on('stop', function() {
     console.log('automated stop on timer', Date.now());
   });
 
   leftEar.on('forward', function() {
-    console.log('forward', Date.now());
-
     // enable the motor after 2 seconds
     board.wait(2000, function() {
       leftEar.enable();
     });
   });
 
-  leftEar.on('enable', function() {
-    console.log('motor enabled', Date.now());
 
+  leftEar.on('enable', function() {
     // enable the motor after 2 seconds
     board.wait(2000, function() {
       leftEar.stop();
@@ -84,16 +93,13 @@ board.on('ready', function () {
   });
 
   leftEar.on('disable', function() {
-    console.log('motor disabled', Date.now());
   });
 
 
   rightEar.on('stop', function() {
-    console.log('automated stop on timer', Date.now());
   });
 
   rightEar.on('forward', function() {
-    console.log('forward', Date.now());
 
     // enable the motor after 2 seconds
     board.wait(2000, function() {
@@ -102,7 +108,6 @@ board.on('ready', function () {
   });
 
   rightEar.on('enable', function() {
-    console.log('motor enabled', Date.now());
 
     // enable the motor after 2 seconds
     board.wait(2000, function() {
@@ -111,7 +116,6 @@ board.on('ready', function () {
   });
 
   rightEar.on('disable', function() {
-    console.log('motor disabled', Date.now());
   });
 
 
@@ -119,9 +123,19 @@ board.on('ready', function () {
   leftEar.disable();
   rightEar.disable();
 
-  // set the motor going forward full speed (nothing happen)
+  // set the motor going forward full speed
   leftEar.forward(255);
   rightEar.forward(255);
+
+  setTimeout(randomisedLeftEar, Math.floor(Math.random()*10000));
+  setTimeout(randomisedRightEar, Math.floor(Math.random()*10000));
+
+//  console.log('am I happy ?? ' + happy.areWeHappy);
+//
+  if (happiness){
+
+  }
+
 
 });
 
