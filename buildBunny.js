@@ -2,6 +2,8 @@
 var five = require('johnny-five');
 var board = new five.Board();
 
+var overallMood = require('./overallmood.js')
+
 board.on('ready', function () {
 
   var button = new five.Button('A1');

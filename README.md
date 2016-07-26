@@ -3,7 +3,7 @@
 ## Installation instructions
 
 npm install johnny-five
-npm install slack-node
+npm install request
 
 ## Component notes:
 
@@ -27,8 +27,6 @@ on the scroll sensor -
 wiring diagram for a simple speaker project
 http://www.instructables.com/id/Arduino-SOS-signal-with-8ohms-speaker-LED-blink
 
-GREAT SUCCESS - the speaker is making sounds!  using the joy.js file - but wired up to pin 6 - makes a blinking sound.
-
 notes on wiring -
   * yellow to ground
   * orange to pin 6
@@ -50,5 +48,5 @@ see wiring / useage at http://www.instructables.com/id/Hack-the-Nabaztag/step8/I
 
 
 ### Top button
-
+Still to flakey to use
 
