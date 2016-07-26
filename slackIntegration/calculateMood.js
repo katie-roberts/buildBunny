@@ -9,7 +9,6 @@ var negativeEmoji = ['disappointed', 'fu', 'grimacing', 'face_with_rolling_eyes'
 
 var containsPositive = function (str) {
   var howHappy = 0;
-  console.log(str);
   for (var i = 0; i < positiveEmoji.length; i++) {
     if (str.indexOf(positiveEmoji[i]) > -1) {
       howHappy++;
@@ -28,6 +27,8 @@ var containsNegative = function (str) {
   }
   return howSad;
 }
+
+
 var getContentFromSlackChannel = function (messages) {
   var feelingGood = 0;
   var feelingBad = 0;
@@ -38,7 +39,13 @@ var getContentFromSlackChannel = function (messages) {
     feelingBad = feelingBad + containsNegative(str);
   }
   console.log('how feeling :: good ' + feelingGood + '   bad ' + feelingBad);
+
+  return feelingGood > feelingBad;
 }
 
+module.exports = {
+  howAreWeFeeling : function () {
+    getJson.getMoodyContent(getContentFromSlackChannel);
+  }
+}
 
-getJson.getMoodyContent(getContentFromSlackChannel);
