@@ -3,14 +3,10 @@ var board = new five.Board();
 
 var areWeHappy = require('./slackIntegration/calculateMood').areWeHappy;
 var moody = false;
+var lastMood = null;
 
 
 board.on('ready', function () {
-//
-//  var button = new five.Button('A1');
-//  var scroll = new five.Sensor('A0');
-
-  var happiness = false;
 
   var glasgowMood = new five.Led(10);
   var teamMood = new five.Led(12);
@@ -76,7 +72,7 @@ board.on('ready', function () {
 
   leftEar.on('forward', function () {
     // enable the motor after 2 seconds
-    board.wait(2000, function () {
+    board.wait(1000, function () {
       leftEar.enable();
     });
   });
@@ -99,7 +95,7 @@ board.on('ready', function () {
   rightEar.on('forward', function () {
 
     // enable the motor after 2 seconds
-    board.wait(2000, function () {
+    board.wait(1000, function () {
       rightEar.enable();
     });
   });
@@ -127,10 +123,9 @@ board.on('ready', function () {
   setTimeout(randomisedLeftEar, Math.floor(Math.random() * 10000));
   setTimeout(randomisedRightEar, Math.floor(Math.random() * 10000));
 
-//  console.log('am I happy ?? ' + happy.areWeHappy);
-
   var checkingHappiness = function (happy) {
-
+    if (lastMood === null) lastMood = happy;
+    if (lastMood === happy) return;
     if (happy) {
       if (moody) {
         salfordMood.stop();
@@ -152,8 +147,8 @@ board.on('ready', function () {
       moody = true;
     }
     setTimeout(areWeHappy(checkingHappiness), 10000);
-  }
-//
+  };
+
   areWeHappy(checkingHappiness);
 
 });
