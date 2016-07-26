@@ -10,7 +10,10 @@ npm install
 
 Use the _.env.example_ file to create a _.env_ file in your root directory and fill in the necessary variables.
 
-## Component notes:
+## Running the app
+
+At the moment there are two separate run files - this is helping dual working on the project.
+
 
 ### Theremin
 
@@ -21,6 +24,19 @@ node theremin.js
 ```
 
 This will output the notes of a C major scale relative to how light or dark the photoresistor is. The darker the resister, the lower the notes on the scale.
+
+### Mood ears and lighting
+
+Run the following script to activate the bunny's ears and lights:
+
+```shell
+node buildBunny.js
+```
+
+
+
+## Component set up notes:
+
 
 ### Scroll wheel
 
