@@ -29,7 +29,7 @@ var containsNegative = function (str) {
 }
 
 
-var getContentFromSlackChannel = function (messages) {
+var getContentFromSlackChannel = function (messages, callback) {
   var feelingGood = 0;
   var feelingBad = 0;
   for (var i = 0; i < messages.length; i++) {
@@ -40,12 +40,13 @@ var getContentFromSlackChannel = function (messages) {
   }
   console.log('how feeling :: good ' + feelingGood + '   bad ' + feelingBad);
 
-  return feelingGood > feelingBad;
-}
-
-module.exports = {
-  areWeHappy : function () {
-    getJson.getMoodyContent(getContentFromSlackChannel);
+  if (callback) {
+      callback(feelingGood > feelingBad);
   }
 }
 
+module.exports = {
+  areWeHappy : function (cb) {
+    return getJson.getMoodyContent(getContentFromSlackChannel, cb);
+  }
+}

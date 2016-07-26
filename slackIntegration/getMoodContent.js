@@ -1,14 +1,14 @@
 var request = require('request');
 
 var url = 'https://slack.com/api/channels.history';
-var token = 'notuploadingtokens!';
+var env = require('node-env-file');
+env(__dirname + '/../.env');
+var token = process.env.TOKEN;
 var channelId = 'C1URGHYUW';
 
 
 module.exports = {
-
-
-  getMoodyContent: function (callback) {
+  getMoodyContent: function (callback, secondCallback) {
     var constructedUrl = url + '?token=' + token + '&channel=' + channelId;
 
     request(constructedUrl, function (error, response, body) {
@@ -24,9 +24,7 @@ module.exports = {
 
 
       var slackResponse = JSON.parse(body);
-      //console.log("Got a response: ", slackResponse.messages);
-      callback(slackResponse.messages);
-
+      callback(slackResponse.messages, secondCallback);
     });
   }
 };

@@ -1,0 +1,25 @@
+{
+  "name": "buildbunny",
+  "version": "1.0.0",
+  "description": "## Installation instructions",
+  "main": "buildBunny.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katie-roberts/buildBunny.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katie-roberts/buildBunny/issues"
+  },
+  "homepage": "https://github.com/katie-roberts/buildBunny#readme",
+  "dependencies": {
+    "j5-songs": "0.0.9",
+    "johnny-five": "^0.9.60",
+    "node-env-file": "^0.1.8",
+    "request": "^2.74.0"
+  }
+}
