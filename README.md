@@ -1,5 +1,10 @@
 # buildBunny
 
+## Installation instructions
+
+npm install johnny-five
+npm install slack-node
+
 ## Component notes:
 
 ### Scroll wheel
