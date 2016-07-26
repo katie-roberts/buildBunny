@@ -44,7 +44,7 @@ var getContentFromSlackChannel = function (messages) {
 }
 
 module.exports = {
-  howAreWeFeeling : function () {
+  areWeHappy : function () {
     getJson.getMoodyContent(getContentFromSlackChannel);
   }
 }
