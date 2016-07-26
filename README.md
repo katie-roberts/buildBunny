@@ -2,10 +2,25 @@
 
 ## Installation instructions
 
-npm install johnny-five
-npm install request
+```shell
+npm install
+```
+
+## Create .env file
+
+Use the _.env.example_ file to create a _.env_ file in your root directory and fill in the necessary variables.
 
 ## Component notes:
+
+### Theremin
+
+Run the following script to activate the theremin:
+
+```shell
+node theremin.js
+```
+
+This will output the notes of a C major scale relative to how light or dark the photoresistor is. The darker the resister, the lower the notes on the scale.
 
 ### Scroll wheel
 
