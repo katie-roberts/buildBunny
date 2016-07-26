@@ -49,8 +49,29 @@ var getContentFromSlackChannel = function (messages, callback) {
   }
 }
 
+var getHappinessPercentage = function (messages, callback) {
+  var feelingGood = 0;
+  var feelingBad = 0;
+
+  var maxMessages = messages.length < maxNumberOfSlacksToCheck ? messages.length : maxNumberOfSlacksToCheck;
+
+  for (var i = 0; i < maxMessages; i++) {
+    var str = messages[i].text;
+    // does it say something positive?
+    feelingGood = feelingGood + containsPositive(str);
+    feelingBad = feelingBad + containsNegative(str);
+  }
+
+  if (callback) {
+    callback( (feelingGood / (feelingGood + feelingBad)) * 100);
+  }
+}
+
 module.exports = {
   areWeHappy: function (cb) {
     return getJson.getMoodyContent(getContentFromSlackChannel, cb);
+  },
+  howHappy: function (cb) {
+    return getJson.getMoodyContent(getHappinessPercentage, cb);
   }
 }
